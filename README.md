@@ -22,7 +22,7 @@ Screenshots:
 
 
 I know its not perfect coding in this jetpack compose composable functions but we will improve it. 
-If you want to contribute to it just fix bugs and raise PR. or write to discuss bugs on linkedIn or Twitter.
+If you want to contribute to it, just fix bugs and raise PR. or write to discuss bugs on linkedIn or Twitter.
 
 Follow me on : 
 
