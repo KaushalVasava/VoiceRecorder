@@ -1,6 +1,6 @@
 package com.kaushalvasava.org.apps.voicerecorder.repo
 
-import com.kaushalvasava.org.apps.voicerecorder.database.model.AudioRecord
+import com.kaushalvasava.org.apps.voicerecorder.model.AudioRecord
 import kotlinx.coroutines.flow.Flow
 
 interface RecorderRepo {

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import com.kaushalvasava.org.apps.voicerecorder.database.model.AudioRecord
+import com.kaushalvasava.org.apps.voicerecorder.model.AudioRecord
 import com.kaushalvasava.org.apps.voicerecorder.services.AudioService
 import com.kaushalvasava.org.apps.voicerecorder.viewModels.RecordingsViewModel
 import com.kaushalvasava.org.apps.voicerecorder.viewModels.TimerViewModel

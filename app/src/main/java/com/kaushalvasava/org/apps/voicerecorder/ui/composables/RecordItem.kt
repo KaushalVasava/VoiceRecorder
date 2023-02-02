@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.kaushalvasava.org.apps.voicerecorder.database.model.AudioRecord
-import com.ysanjeet535.voicerecorder.utils.AppUtils
+import com.kaushalvasava.org.apps.voicerecorder.model.AudioRecord
+import com.kaushalvasava.org.apps.voicerecorder.utils.AppUtils
 
 @Composable
 fun RecordItem(audioRecord: AudioRecord, onClick: () -> Unit) {

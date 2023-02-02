@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">VoiceRecorder</string>
+    <string name="something_went_wrong">Something went wrong!</string>
+    <string name="give_write_permission">Grant write storage permission</string>
+    <string name="notification_desc">Your Audio is being recorded in the background</string>
 </resources>

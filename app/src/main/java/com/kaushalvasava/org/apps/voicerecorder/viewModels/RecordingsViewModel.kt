@@ -2,7 +2,7 @@ package com.kaushalvasava.org.apps.voicerecorder.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kaushalvasava.org.apps.voicerecorder.database.model.AudioRecord
+import com.kaushalvasava.org.apps.voicerecorder.model.AudioRecord
 import com.kaushalvasava.org.apps.voicerecorder.repo.RecorderRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

@@ -11,7 +11,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,7 +18,6 @@ import androidx.navigation.compose.composable
 import com.kaushalvasava.org.apps.voicerecorder.MainContent
 import com.kaushalvasava.org.apps.voicerecorder.services.AudioService
 import com.kaushalvasava.org.apps.voicerecorder.ui.composables.CustomDialog
-import com.kaushalvasava.org.apps.voicerecorder.ui.theme.VoiceRecorderTheme
 import com.kaushalvasava.org.apps.voicerecorder.viewModels.RecordingsViewModel
 import com.kaushalvasava.org.apps.voicerecorder.viewModels.TimerViewModel
 

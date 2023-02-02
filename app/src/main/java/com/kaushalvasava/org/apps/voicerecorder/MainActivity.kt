@@ -47,7 +47,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kaushalvasava.org.apps.voicerecorder.ui.screen.HomeScreen
-import com.ysanjeet535.voicerecorder.utils.convertSecondsToHMmSs
+import com.kaushalvasava.org.apps.voicerecorder.utils.convertSecondsToHMmSs
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -86,13 +86,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             VoiceRecorderTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-//                    RequestPermission()
                     val recordingViewModel: RecordingsViewModel by viewModels()
                     val navController = rememberNavController()
                     val isConnect = viewModel.isConnected.collectAsState()
@@ -110,50 +110,26 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Composable
-    fun RequestPermission() {
-        val launcher: ManagedActivityResultLauncher<String, Boolean> =
-            rememberLauncherForActivityResult(
-                ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->
-                if (isGranted) {
-                    // Permission Accepted: Do something
-                    Log.d("TAG", "PERMISSION GRANTED")
-                    startService(intent)
-                    bindService(intent, connection, Context.BIND_AUTO_CREATE)
-                }
-            }
-
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                LocalContext.current,
-                Manifest.permission.RECORD_AUDIO
-            ) -> {
-                // Some works that require permission
-                Log.d("TAG", "Code requires permission")
-                startService(intent)
-                bindService(intent, connection, Context.BIND_AUTO_CREATE)
-            }
-            else -> {
-                // Asking for permission
-                SideEffect {
-                    launcher.launch(Manifest.permission.RECORD_AUDIO)
-                }
-            }
-        }
-
+    private fun isPermissionGranted(permission: String): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            this,
+            permission
+        ) != PackageManager.PERMISSION_GRANTED
     }
 
     private fun bindAudioServiceWithPermission() {
-        val intent = Intent(this, AudioService::class.java)
+        val intent = Intent(applicationContext, AudioService::class.java)
         intent.action = ACTION_START_FOREGROUND_SERVICE
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.RECORD_AUDIO
-            ) != PackageManager.PERMISSION_GRANTED
+        if (isPermissionGranted(Manifest.permission.RECORD_AUDIO)
+            && isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), 0)
+                requestPermissions(
+                    arrayOf(
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ), 0
+                )
                 startService(intent)
                 bindService(intent, connection, Context.BIND_AUTO_CREATE)
             }

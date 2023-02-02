@@ -1,4 +1,4 @@
-package com.kaushalvasava.org.apps.voicerecorder.database.model
+package com.kaushalvasava.org.apps.voicerecorder.model
 
 import androidx.room.Entity
 import androidx.room.Ignore

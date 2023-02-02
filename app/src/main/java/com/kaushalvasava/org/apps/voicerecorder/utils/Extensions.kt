@@ -1,4 +1,4 @@
-package com.ysanjeet535.voicerecorder.utils
+package com.kaushalvasava.org.apps.voicerecorder.utils
 
 fun Long.convertSecondsToHMmSs(): String {
     val s = this % 60
