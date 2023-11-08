@@ -12,7 +12,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.kaushalvasava.org.apps.voicerecorder.R
-import com.kaushalvasava.org.apps.voicerecorder.ui.customViews.AudioVisualizerView
 
 @Composable
 fun PlayerView(
@@ -39,23 +38,23 @@ fun PlayerView(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        val context = LocalContext.current
-        if (sessionId != null) {
-            AndroidView(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp),
-                factory = {
-                    AudioVisualizerView(context)
-                }
-            ) {
-                it.apply {
-                    setColor()
-                    setDensityValue()
-                    setPlayerId(sessionId)
-                }
-            }
-        }
+//        val context = LocalContext.current
+//        if (sessionId != null) {
+//            AndroidView(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(100.dp),
+//                factory = {
+//                    AudioVisualizerView(context)
+//                }
+//            ) {
+//                it.apply {
+//                    setColor()
+//                    setDensityValue()
+//                    setPlayerId(sessionId)
+//                }
+//            }
+//        }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center

@@ -3,4 +3,12 @@
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="give_write_permission">Grant write storage permission</string>
     <string name="notification_desc">Your Audio is being recorded in the background</string>
+    <string name="recording_not_started_yet">Recording not started yet</string>
+    <string name="save_recording">Save recording</string>
+    <string name="enter_file_name">Enter file name</string>
+    <string name="clear">clear</string>
+    <string name="file_name_empty_error">File name can not be empty</string>
+    <string name="done">Done</string>
+    <string name="search_recording">Search recording</string>
+    <string name="back">back</string>
 </resources>

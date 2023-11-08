@@ -23,6 +23,11 @@ class RecorderRepoImpl(
     override fun getRecords(): Flow<List<AudioRecord>> {
         return dao.getRecords()
     }
+
+    override suspend fun getRecordById(recordId: Int): AudioRecord {
+        return dao.getRecordById(recordId)
+    }
+
     override fun getAllAudioRecords(
         searchQuery: String
     ): Flow<List<AudioRecord>> {

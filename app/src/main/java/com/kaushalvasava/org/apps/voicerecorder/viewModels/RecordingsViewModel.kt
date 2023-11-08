@@ -15,13 +15,25 @@ class RecordingsViewModel @Inject constructor(
     private val repository: RecorderRepo
 ) : ViewModel() {
 
+    val recordID = MutableStateFlow<AudioRecord?>(null)
+
     fun getRecordData(query: String?): Flow<List<AudioRecord>> {
         return if (query != null && query.isNotEmpty()) {
             repository.getAllAudioRecords(
                 query
             )
         } else {
+//            val list= mutableListOf<AudioRecord>()
+//            for(i in 0..10){
+//                list.add(AudioRecord("example $i","fdf", System.currentTimeMillis(),12L))
+//            }
+//            flowOf(list)
             repository.getRecords()
+        }
+    }
+    fun getRecordById(recordId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            recordID.value = repository.getRecordById(recordId)
         }
     }
 

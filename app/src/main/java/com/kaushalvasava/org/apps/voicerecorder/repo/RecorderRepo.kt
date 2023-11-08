@@ -13,6 +13,8 @@ interface RecorderRepo {
 
     fun getRecords(): Flow<List<AudioRecord>>
 
+    suspend fun getRecordById(recordId: Int): AudioRecord
+
     fun getAllAudioRecords(
         searchQuery: String
     ): Flow<List<AudioRecord>>

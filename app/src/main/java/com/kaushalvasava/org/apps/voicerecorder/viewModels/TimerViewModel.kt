@@ -4,9 +4,11 @@ import androidx.lifecycle.*
 import com.kaushalvasava.org.apps.voicerecorder.model.AudioRecord
 import com.kaushalvasava.org.apps.voicerecorder.repo.RecorderRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,15 +18,15 @@ class TimerViewModel @Inject constructor(
 ) : ViewModel() {
 
     val isConnected = MutableStateFlow(false)
-    private val _timerValue = MutableLiveData(0L)
-    val timerValue: LiveData<Long> get() = _timerValue
+    private val _timerValue = MutableStateFlow(0L)
+    val timerValue: StateFlow<Long> get() = _timerValue
 
     private var startTime = 0L
 
     private var job: Job? = null
 
     fun addRecording(record: AudioRecord) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.insertRecording(record)
         }
     }
@@ -37,7 +39,7 @@ class TimerViewModel @Inject constructor(
             while (true) {
                 delay(1000)
                 startTime += 1
-                _timerValue.postValue(startTime)
+                _timerValue.value = startTime
             }
         }
         job!!.start()
@@ -46,7 +48,7 @@ class TimerViewModel @Inject constructor(
     fun stopTimer() {
         job?.cancel()
         startTime = 0
-        _timerValue.postValue(0)
+        _timerValue.value = 0
         if (job?.isCancelled == true) {
             job = null
         }
@@ -55,11 +57,11 @@ class TimerViewModel @Inject constructor(
     fun toggleTimer(isPaused: Boolean) {
         if (isPaused) {
             job?.cancel()
-            _timerValue.postValue(startTime)
+            _timerValue.value = startTime
         } else {
             job?.start()
             startTimer()
-            _timerValue.postValue(startTime)
+            _timerValue.value = startTime
         }
     }
 }

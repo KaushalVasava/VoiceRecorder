@@ -17,6 +17,9 @@ interface AudioRecordDao {
     @Query("SELECT * FROM audioRecords")
     fun getRecords(): Flow<List<AudioRecord>>
 
+    @Query("SELECT * FROM audioRecords WHERE id= :recordId")
+    suspend fun getRecordById(recordId: Int): AudioRecord
+
     @Query("DELETE FROM audioRecords")
     fun deleteAll()
 

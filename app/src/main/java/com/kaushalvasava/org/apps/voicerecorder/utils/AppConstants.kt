@@ -6,7 +6,8 @@ import com.kaushalvasava.org.apps.voicerecorder.BuildConfig
 object AppConstants {
     const val DATABASE_NAME = BuildConfig.APPLICATION_ID + "_recorder_db"
     const val DATE_FORMAT = "dd/MM/yy"
-    const val AUDIO_FORMAT_M4A = "m4a"
+    const val AUDIO_FORMAT_M4A = ".m4a"
+    const val AUDIO_FORMAT_MP3 = ".mp3"
     const val RECORDING_  = "recording_"
     object Notification {
         const val NOTIFICATION_ID = "com.kaushalvasava.org.apps.voicerecorder.notificationID"

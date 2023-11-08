@@ -11,43 +11,39 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.*
+import androidx.navigation.compose.rememberNavController
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
-import androidx.navigation.compose.rememberNavController
-import com.kaushalvasava.org.apps.voicerecorder.ui.theme.VoiceRecorderTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kaushalvasava.org.apps.voicerecorder.services.ACTION_START_FOREGROUND_SERVICE
 import com.kaushalvasava.org.apps.voicerecorder.services.AudioService
 import com.kaushalvasava.org.apps.voicerecorder.ui.composables.CircularTimerView
 import com.kaushalvasava.org.apps.voicerecorder.ui.composables.RecordControlButtons
+import com.kaushalvasava.org.apps.voicerecorder.ui.navhost.MyNavHost
+import com.kaushalvasava.org.apps.voicerecorder.ui.theme.VoiceRecorderTheme
+import com.kaushalvasava.org.apps.voicerecorder.utils.convertSecondsToHMmSs
 import com.kaushalvasava.org.apps.voicerecorder.viewModels.RecordingsViewModel
 import com.kaushalvasava.org.apps.voicerecorder.viewModels.TimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kaushalvasava.org.apps.voicerecorder.ui.screen.HomeScreen
-import com.kaushalvasava.org.apps.voicerecorder.utils.convertSecondsToHMmSs
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -55,14 +51,14 @@ class MainActivity : ComponentActivity() {
     private var mService: AudioService? = null
     private var mBound: Boolean = false
     private val viewModel: TimerViewModel by viewModels()
+    val recordingsViewModel: RecordingsViewModel by viewModels()
 
-    //audio recorder service related
+    // Audio recorder service related
     private var connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder = service as AudioService.AudioRecorderServiceBinder
             mService = binder.getService()
             viewModel.isConnected.value = mService != null
-            Log.d("TAG", "onServiceConnected")
             mBound = true
         }
 
@@ -93,18 +89,51 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    val recordingViewModel: RecordingsViewModel by viewModels()
-                    val navController = rememberNavController()
                     val isConnect = viewModel.isConnected.collectAsState()
                     Log.d("TAG", "onCreate: ${isConnect.value}")
+                    val navController = rememberNavController()
                     if (isConnect.value) {
-                        HomeScreen(
+                        MyNavHost(
                             navController = navController,
-                            viewModel = viewModel,
-                            recordingViewModel = recordingViewModel,
-                            mService = mService,
+                            service = mService,
+                            timerViewModel = viewModel,
+                            recordingsViewModel = recordingsViewModel
                         )
                     }
+                    //HomeScreen(navController = navController, mService = mService)
+
+//                    Log.d("TAG", "onCreate: ${isConnect.value}")
+//                    if (isConnect.value) {
+//                    val showDialog = rememberSaveable { mutableStateOf(false) }
+//                    if (showDialog.value)
+//                        CustomDialog(
+//                            navController = navController,
+//                            value = "Recording_${System.currentTimeMillis()}",
+//                            setShowDialog = {
+//                                showDialog.value = it
+//                            },
+//                            mService = mService,
+//                        ) {
+//                        }
+//
+//                    Surface {
+//                        Box(
+//                            modifier = Modifier
+//                                .background(Color.Black)
+//                                .clip(RoundedCornerShape(16.dp)),
+//                        ) {
+//
+//                        }
+//                    }
+
+
+//                    }
+//                        HomeScreen(
+//                            navController = navController,
+//                            viewModel = viewModel,
+//                            recordingViewModel = recordingViewModel,
+//                            mService = mService,
+//                        )
                 }
             }
         }
@@ -147,7 +176,7 @@ fun MainContent(
     onStop: () -> Unit = {},
     onToggleRecord: () -> Unit = {},
 ) {
-    val time by viewModel.timerValue.observeAsState()
+    val time by viewModel.timerValue.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -158,7 +187,7 @@ fun MainContent(
     ) {
         Text(
             text = "${time?.convertSecondsToHMmSs()}",
-            style = MaterialTheme.typography.headlineLarge,
+            style = MaterialTheme.typography.body1,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally),
             color = Color.White
@@ -180,8 +209,8 @@ fun MainContent(
 fun DefaultPreview() {
     VoiceRecorderTheme {
         val viewModel: TimerViewModel = viewModel()
-        MainContent(
-            viewModel = viewModel,
-        )
+//        HomeScreen(
+//            rememberNavController()
+//        )
     }
 }

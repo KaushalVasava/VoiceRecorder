@@ -9,8 +9,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -26,11 +26,11 @@ import com.kaushalvasava.org.apps.voicerecorder.viewModels.TimerViewModel
 fun CircularTimerView(
     viewModel: TimerViewModel
 ) {
-    val time by viewModel.timerValue.observeAsState()
+    val time by viewModel.timerValue.collectAsState()
 
     val angle = animateFloatAsState(
-        targetValue = (time?.times(6)?.toFloat())?.rem(360) ?: 0f,
-        animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
+        targetValue = (time.times(6).toFloat()).rem(360),
+        animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing), label = ""
     )
 
     Box(
@@ -43,7 +43,6 @@ fun CircularTimerView(
             modifier = Modifier
                 .size(120.dp)
                 .padding(8.dp)
-//                .background(MaterialTheme.colorScheme.onSurface)
         ) {
             drawArc(
                 color = Color.Green,

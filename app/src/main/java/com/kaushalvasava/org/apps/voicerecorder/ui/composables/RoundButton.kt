@@ -47,6 +47,5 @@ fun PreviewOFButton() {
         iconId = R.drawable.ic_play,
         iconSize = 60.dp,
         color = Color.Gray,
-    ) {
-    }
+    ) {}
 }
